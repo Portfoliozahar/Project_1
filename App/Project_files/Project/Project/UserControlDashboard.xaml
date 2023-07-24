@@ -1,0 +1,128 @@
+﻿<UserControl x:Class="Project.UserControlDashboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             d:DesignHeight="600" Loaded="UserControl_Loaded" FontFamily="/Project;component/Fonts/#Champagne &amp; Limousines" Foreground="Gray">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="350"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
+            <StackPanel Margin="15" Background="#FF009CDE" Height="80" VerticalAlignment="Top">
+                
+                <Label Content="Общая сумма" FontSize="18" Margin="10 5" HorizontalAlignment="Left" Foreground="White"/>
+                <Label x:Name="TextBlockTotal" Content="UZS 0,00" Margin="10 0" FontSize="22" HorizontalAlignment="Right" Foreground="White"/>
+            </StackPanel>
+            <Grid Background="#FFB8DDEE" Margin="15 100 15 15">
+               
+                <TextBlock Text="История" FontSize="16" Margin="10" HorizontalAlignment="Left"/>
+                <ListView x:Name="ListViewTimeLine" ItemsSource="{Binding ItemTimeLine}"  Margin="0 40 0 0" Background="#abcdef">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Focusable" Value="false"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="50" Text="{Binding Path=Date, StringFormat={}{0:dd-MMM}}" Margin="5" VerticalAlignment="Center" Foreground="Gray" FontSize="14" FontWeight="Bold"/>
+                                <Grid Margin="10 0">
+                                    <Rectangle Fill="#FF009CDE" HorizontalAlignment="Center" Width="2" Margin="0 9.7 0 0"/>
+                                    <Grid VerticalAlignment="Top" >
+                                        <Ellipse Width="22" Height="22" Stroke="#FF009CDE"  VerticalAlignment="Center" HorizontalAlignment="Center" StrokeThickness="1"/>
+                                        <Ellipse Width="16" Height="16" Stroke="#FF009CDE"  VerticalAlignment="Center" HorizontalAlignment="Center" StrokeThickness="2"/>
+                                        <Ellipse Width="6" Height="6" Fill="#FF009CDE" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Grid>
+                                <Grid MinWidth="180">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Path=Type}" Margin="5 10 10 0" FontFamily="/Project;component/Fonts/#Champagne &amp; Limousines" FontSize="18" TextAlignment="Left"/>
+                                        <TextBlock Text="{Binding Path=Description}" Margin="5" FontFamily="/Project;component/Fonts/#Champagne &amp; Limousines" FontSize="14" TextAlignment="Left" Foreground="#FF009CDE"/>
+                                        <TextBlock Text="{Binding Path=Value}" Margin="5" FontFamily="/Project;component/Fonts/#Champagne &amp; Limousines" FontSize="18" FontWeight="Bold" TextAlignment="Left" Foreground="{Binding Path=Brush}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+
+        <ScrollViewer Grid.Column="1" Grid.RowSpan="3" MinWidth="150" Margin="5 15" Background="#FFABDDF9">
+            <StackPanel>
+                <StackPanel Background="#fffdd0" Margin="15">
+                    <!--<StackPanel.Effect>
+                        <DropShadowEffect ShadowDepth="1" BlurRadius="30"/>
+                    </StackPanel.Effect>-->
+                    <TextBlock Text="Статистический график" Margin="20 10" FontSize="18"/>
+                    <TextBlock x:Name="TextBlockCategoryCostEmpty" Text="Здесь еще ничего нет" Margin="20" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel Orientation="Horizontal" x:Name="StackCategoryCost" VerticalAlignment="Top"/>
+                    </ScrollViewer>
+                </StackPanel>
+                
+                <Rectangle Fill="White" Height="1" Margin="20 0 5 0"/>
+                
+                <Rectangle Fill="#FFE4F09B" Height="1" Margin="20 0 5 0"/>
+                <StackPanel Background="#fffdd0" Margin="15" RenderTransformOrigin="0.483,1.609">
+
+                    <TextBlock Text="ЕЖЕМЕСЯЧНАЯ ДИАГРАММА" Margin="20 10" FontSize="18"/>
+                    <TextBlock x:Name="TextBlockMonthlyChartsEmpty" Text="Здесь еще ничего нет" Margin="20" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel Orientation="Horizontal" x:Name="StackMonthlyChart" VerticalAlignment="Top"/>
+                    </ScrollViewer>
+                </StackPanel>
+                <Rectangle Fill="White" Height="1" Margin="20 0 5 0"/>
+                <StackPanel Background="#fffdd0" Margin="15">
+                    <!--<StackPanel.Effect>
+                        <DropShadowEffect ShadowDepth="1" BlurRadius="30"/>
+                    </StackPanel.Effect>-->
+                    <TextBlock Text="ЕЖЕМЕСЯЧНЫЙ ДОХОД" Margin="20 10" FontSize="18"/>
+                    <TextBlock x:Name="TextBlockMonthlyIncomeEmpty" Text="Здесь еще ничего нет" Margin="20" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel Orientation="Horizontal" x:Name="StackMonthlyIncome" VerticalAlignment="Top"/>
+                    </ScrollViewer>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+            <Grid Margin="15" Background="#d8bfd8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="181*"/>
+                </Grid.RowDefinitions>
+               
+                <TextBlock Text="Профили" FontSize="16" Margin="10" HorizontalAlignment="Left" Grid.Row="0"/>
+                <ListView x:Name="ListViewAccounts" ItemsSource="{Binding Account}" Grid.Row="1">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Focusable" Value="false"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <GroupBox Header="{Binding Path=Name}" Width="185">
+                                <Grid >
+                                    <TextBlock xml:lang="pt-BR" Text="{Binding Path=Amount, StringFormat={}{0:C}}" Margin="5" FontFamily="/Project;component/Fonts/#Champagne &amp; Limousines" FontSize="15" TextAlignment="Right" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </GroupBox>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
